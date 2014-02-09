@@ -10,7 +10,12 @@ init = () ->
     game.score = new Score(game),
     game.ground = new Grass(game)
   ]
+  document.getElementById('play-again').addEventListener 'click', () ->
+    game.gameOver false
+    $('canvas')[0].focus()
 
+
+  game.gameOver false
   game.start()
   canvas.focus()
 

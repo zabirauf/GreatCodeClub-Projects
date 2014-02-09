@@ -14,6 +14,7 @@
         40: "down"
       };
       this.entities = [];
+      this.isGameOver = false;
       $(canvas).on("keydown keyup", (function(_this) {
         return function(e) {
           var keyName, keyVal, _ref;
@@ -54,14 +55,27 @@
       })(this));
     };
 
+    Game.prototype.gameOver = function(isGameOver) {
+      this.isGameOver = isGameOver;
+      if (this.isGameOver) {
+        document.getElementById('game-over').style.display = "block";
+        return document.getElementById('game-over-overlay').style.display = "block";
+      } else {
+        document.getElementById('game-over').style.display = "none";
+        return document.getElementById('game-over-overlay').style.display = "none";
+      }
+    };
+
     Game.prototype.start = function() {
       var fps, interval;
       fps = 60;
       interval = 1000 / fps;
       return setInterval((function(_this) {
         return function() {
-          _this.update();
-          return _this.draw();
+          if (!_this.isGameOver) {
+            _this.update();
+            return _this.draw();
+          }
         };
       })(this), interval);
     };
