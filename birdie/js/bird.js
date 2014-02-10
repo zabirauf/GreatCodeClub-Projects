@@ -25,12 +25,12 @@
     Bird.prototype.update = function() {
       Bird.__super__.update.apply(this, arguments);
       if (this.y > this.game.height - this.height || this.y < 0) {
+        this.game.gameOver(true, this.score);
         this.reset();
-        this.game.gameOver(true);
       }
       if (this.game.obstacles.intersect(this) || this.game.ground.intersect(this)) {
+        this.game.gameOver(true, this.score);
         this.reset();
-        this.game.gameOver(true);
       }
       if (this.game.keyPressed.space && this.game.keyPressed.space.keydown && !this.keyAlreadyDown) {
         this.yAccel = this.MIN_Y_ACCEL;

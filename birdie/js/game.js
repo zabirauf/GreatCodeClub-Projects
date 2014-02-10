@@ -2,6 +2,7 @@
 (function() {
   window.Game = (function() {
     function Game(canvas) {
+      var clearKeys;
       this.context = canvas.getContext("2d");
       this.width = canvas.width;
       this.height = canvas.height;
@@ -15,6 +16,34 @@
       };
       this.entities = [];
       this.isGameOver = false;
+      clearKeys = (function(_this) {
+        return function() {
+          var keyName, keyVal, _ref, _results;
+          _ref = _this.keys;
+          _results = [];
+          for (keyVal in _ref) {
+            keyName = _ref[keyVal];
+            _this.keyPressed[keyName] = {};
+            _this.keyPressed[keyName]['keydown'] = false;
+            _results.push(_this.keyPressed[keyName]['keyup'] = false);
+          }
+          return _results;
+        };
+      })(this);
+      $(canvas).mousedown((function(_this) {
+        return function(e) {
+          _this.keyPressed["space"]["keydown"] = true;
+          _this.keyPressed["space"]["keyup"] = false;
+          return e.preventDefault();
+        };
+      })(this));
+      $(canvas).mouseup((function(_this) {
+        return function(e) {
+          _this.keyPressed["space"]["keydown"] = false;
+          _this.keyPressed["space"]["keyup"] = true;
+          return e.preventDefault();
+        };
+      })(this));
       $(canvas).on("keydown keyup", (function(_this) {
         return function(e) {
           var keyName, keyVal, _ref;
@@ -55,11 +84,15 @@
       })(this));
     };
 
-    Game.prototype.gameOver = function(isGameOver) {
+    Game.prototype.gameOver = function(isGameOver, score) {
+      if (score == null) {
+        score = 0;
+      }
       this.isGameOver = isGameOver;
       if (this.isGameOver) {
         document.getElementById('game-over').style.display = "block";
-        return document.getElementById('game-over-overlay').style.display = "block";
+        document.getElementById('game-over-overlay').style.display = "block";
+        return $('#score').html(score);
       } else {
         document.getElementById('game-over').style.display = "none";
         return document.getElementById('game-over-overlay').style.display = "none";

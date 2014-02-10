@@ -18,11 +18,11 @@ class window.Bird extends Entity
   update: ->
     super
     if @y > @game.height-@height or @y<0
+      @game.gameOver true, @score
       @reset()
-      @game.gameOver true
     if @game.obstacles.intersect(this) or @game.ground.intersect (this)
+      @game.gameOver true, @score
       @reset()
-      @game.gameOver true
 
     if @game.keyPressed.space and @game.keyPressed.space.keydown and not @keyAlreadyDown
       @yAccel = @MIN_Y_ACCEL

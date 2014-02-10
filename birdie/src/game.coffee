@@ -13,6 +13,22 @@ class window.Game
     }
     @entities = []
     @isGameOver = false
+    clearKeys = () =>
+      for keyVal, keyName of @keys
+        @keyPressed[keyName] = {}
+        @keyPressed[keyName]['keydown'] = false
+        @keyPressed[keyName]['keyup'] = false
+
+    $(canvas).mousedown (e) =>
+      @keyPressed["space"]["keydown"] = true
+      @keyPressed["space"]["keyup"] = false
+      e.preventDefault()
+
+    $(canvas).mouseup (e) =>
+      @keyPressed["space"]["keydown"] = false
+      @keyPressed["space"]["keyup"] = true
+      e.preventDefault()
+
     $(canvas).on "keydown keyup", (e) =>
       for keyVal, keyName of @keys
       #Clear all the array of keypressed
@@ -33,11 +49,12 @@ class window.Game
     @entities.forEach (entity) =>
       entity.update() if entity.update
 
-  gameOver: (isGameOver)->
+  gameOver: (isGameOver, score = 0)->
     @isGameOver = isGameOver
     if @isGameOver
       document.getElementById('game-over').style.display = "block"
       document.getElementById('game-over-overlay').style.display = "block"
+      $('#score').html(score)
     else
       document.getElementById('game-over').style.display = "none"
       document.getElementById('game-over-overlay').style.display = "none"
