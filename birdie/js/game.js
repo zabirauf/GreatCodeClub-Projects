@@ -6,7 +6,9 @@
       this.context = canvas.getContext("2d");
       this.width = canvas.width;
       this.height = canvas.height;
-      this.keyPressed = {};
+      this.keyPressed = {
+        "space": {}
+      };
       this.keys = {
         32: "space",
         37: "left",
