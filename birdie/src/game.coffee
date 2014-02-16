@@ -3,7 +3,9 @@ class window.Game
     @context = canvas.getContext("2d")
     @width = canvas.width
     @height = canvas.height
-    @keyPressed = {}
+    @keyPressed = {
+      "space": {}
+    }
     @keys = {
       32: "space",
       37: "left",
